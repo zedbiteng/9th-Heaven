@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="Materia Finance — a local-first personal finance tracker.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icon-192.png">
+  <link rel="apple-touch-icon" href="./assets/icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Materia Finance</title>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">MATERIA FINANCE</div>
+      <h1>Your gil, without the grind.</h1>
+      <p class="sub">Local-first personal finance tracker</p>
+    </div>
+    <button id="installBtn" class="ghost hidden" type="button">Install App</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">CURRENT PERIOD</div>
+        <div id="periodLabel" class="period">—</div>
+        <div class="hero-grid">
+          <article><span>Income</span><strong id="incomeKpi">$0</strong></article>
+          <article><span>Expenses</span><strong id="expenseKpi">$0</strong></article>
+          <article><span>Cash flow</span><strong id="flowKpi">$0</strong></article>
+          <article><span>Net balance</span><strong id="netKpi">$0</strong></article>
+        </div>
+      </div>
+      <div class="hero-art">
+        <img src="./assets/tifa-inspired.svg" alt="Stylized martial-artist heroine inspired dashboard artwork">
+        <div class="hero-art-label">Seventh Heaven Edition</div>
+      </div>
+    </section>
+
+    <nav class="tabs" aria-label="Finance sections">
+      <button data-tab="dashboard" class="active" type="button">Dashboard</button>
+      <button data-tab="transactions" type="button">Transactions</button>
+      <button data-tab="accounts" type="button">Accounts</button>
+      <button data-tab="budgets" type="button">Budgets</button>
+      <button data-tab="reports" type="button">Reports</button>
+      <button data-tab="settings" type="button">Settings</button>
+    </nav>
+
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <section id="dashboard" class="tab-panel active">
+      <div class="two-col">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="eyebrow">CRYSTAL PULSE</div>
+              <h2>Cash flow trend</h2>
+            </div>
+            <button id="quickAdd" class="primary" type="button">+ Transaction</button>
+          </div>
+          <div id="cashFlowChart" class="chart"></div>
+        </article>
+        <article class="panel">
+          <div class="eyebrow">PARTY FUNDS</div>
+          <h2>Balances</h2>
+          <div id="dashboardAccounts"></div>
+        </article>
+      </div>
+      <div class="two-col">
+        <article class="panel">
+          <div class="eyebrow">LIMIT BREAKS</div>
+          <h2>Budget progress</h2>
+          <div id="dashboardBudgets"></div>
+        </article>
+        <article class="panel">
+          <div class="eyebrow">LATEST ACTIVITY</div>
+          <h2>Recent transactions</h2>
+          <div id="dashboardRecent"></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="transactions" class="tab-panel">
+      <div class="two-col split">
+        <form id="transactionForm" class="panel">
+          <div class="eyebrow">LEDGER ENTRY</div>
+          <h2>Add transaction</h2>
+          <div class="form-grid">
+            <label>Type
+              <select id="txType">
+                <option value="expense">Expense</option>
+                <option value="income">Income</option>
+                <option value="transfer">Transfer</option>
+              </select>
+            </label>
+            <label>Date
+              <input id="txDate" type="date" required>
+            </label>
+            <label>Account
+              <select id="txAccount"></select>
+            </label>
+            <label id="toAccountWrap" class="hidden">Destination
+              <select id="txToAccount"></select>
+            </label>
+            <label id="categoryWrap">Category
+              <select id="txCategory"></select>
+            </label>
+            <label>Amount
+              <input id="txAmount" type="number" min="0.01" step="0.01" inputmode="decimal" required>
+            </label>
+            <label class="wide">Note
+              <input id="txNote" maxlength="100" placeholder="Groceries, salary, card payment...">
+            </label>
+          </div>
+          <button class="primary wide-btn" type="submit">Save transaction</button>
+          <p class="hint">Transfers affect balances only. They never count as income, expense, budget spend, or cash flow.</p>
+        </form>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="eyebrow">LEDGER</div>
+              <h2>History</h2>
+            </div>
+            <select id="txFilter" class="compact">
+              <option value="all">All</option>
+              <option value="expense">Expenses</option>
+              <option value="income">Income</option>
+              <option value="transfer">Transfers</option>
+            </select>
+          </div>
+          <div id="transactionList"></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="accounts" class="tab-panel">
+      <div class="two-col split">
+        <form id="accountForm" class="panel">
+          <div class="eyebrow">NEW ACCOUNT</div>
+          <h2>Add fund source</h2>
+          <label>Name<input id="accName" maxlength="40" required placeholder="Everyday Account"></label>
+          <label>Type
+            <select id="accType">
+              <option value="bank">Bank account</option>
+              <option value="cash">Cash</option>
+              <option value="credit">Credit card</option>
+            </select>
+          </label>
+          <label>Opening balance
+            <input id="accOpening" type="number" step="0.01" value="0">
+            <span id="openingHelp" class="hint">Enter money currently available.</span>
+          </label>
+          <button class="primary wide-btn" type="submit">Add account</button>
+        </form>
+
+        <article class="panel">
+          <div class="eyebrow">PARTY INVENTORY</div>
+          <h2>Accounts</h2>
+          <div id="accountList" class="account-grid"></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="budgets" class="tab-panel">
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="eyebrow">GUARDRAILS</div>
+            <h2>Category budgets</h2>
+            <p class="hint">Budgets follow your custom month start date.</p>
+          </div>
+          <button id="saveBudgets" class="primary" type="button">Save budgets</button>
+        </div>
+        <div id="budgetEditor" class="budget-grid"></div>
+      </article>
+    </section>
+
+    <section id="reports" class="tab-panel">
+      <article class="panel">
+        <div class="panel-head wrap">
+          <div>
+            <div class="eyebrow">STATISTICS</div>
+            <h2>Spending comparison</h2>
+            <p class="hint">Compare category spending across monthly or yearly periods.</p>
+          </div>
+          <div class="controls">
+            <label>Period
+              <select id="reportPeriod">
+                <option value="month">Monthly</option>
+                <option value="year">Yearly</option>
+              </select>
+            </label>
+            <label>Chart
+              <select id="chartType">
+                <option value="bar">Bar</option>
+                <option value="line">Line</option>
+              </select>
+            </label>
+          </div>
+        </div>
+      </article>
+
+      <div class="kpi-row">
+        <article><span>Average spend</span><strong id="avgSpend">$0</strong></article>
+        <article><span>Spend trend</span><strong id="spendTrend">0%</strong></article>
+        <article><span>Top category</span><strong id="topCategory">—</strong></article>
+        <article><span>Latest cash flow</span><strong id="latestCashFlow">$0</strong></article>
+      </div>
+
+      <article class="panel">
+        <h2>Category spending by period</h2>
+        <div id="categoryLegend" class="legend"></div>
+        <div id="categoryChart" class="chart"></div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head wrap">
+          <h2>Income, expenses & cash flow</h2>
+          <span class="hint">Transfers excluded</span>
+        </div>
+        <div id="reportCashFlowChart" class="chart"></div>
+      </article>
+    </section>
+
+    <section id="settings" class="tab-panel">
+      <div class="two-col">
+        <form id="settingsForm" class="panel">
+          <div class="eyebrow">CONFIGURATION</div>
+          <h2>Reporting period</h2>
+          <label>Month starts on day
+            <input id="monthStart" type="number" min="1" max="28" required>
+            <span class="hint">1–28 ensures the date exists every month.</span>
+          </label>
+          <label>Currency
+            <select id="currency">
+              <option>AUD</option><option>USD</option><option>JPY</option>
+              <option>GBP</option><option>EUR</option><option>PHP</option>
+            </select>
+          </label>
+          <button class="primary wide-btn" type="submit">Save settings</button>
+        </form>
+
+        <article class="panel">
+          <div class="eyebrow">CATEGORIES</div>
+          <h2>Customize</h2>
+          <form id="categoryForm" class="category-form">
+            <input id="newCategoryName" maxlength="30" required placeholder="New category">
+            <select id="newCategoryType">
+              <option value="expense">Expense</option>
+              <option value="income">Income</option>
+            </select>
+            <button class="primary" type="submit">Add</button>
+          </form>
+          <div id="categoryList"></div>
+        </article>
+      </div>
+
+      <article class="panel">
+        <div class="eyebrow">LOCAL VAULT</div>
+        <h2>Backup & restore</h2>
+        <p class="hint">All finance data stays in this browser's IndexedDB. Export backups before clearing browser data or moving devices.</p>
+        <div class="actions">
+          <button id="exportBtn" type="button">Export JSON</button>
+          <label class="file-btn">Import JSON<input id="importFile" class="hidden" type="file" accept="application/json"></label>
+          <button id="demoBtn" type="button">Load demo data</button>
+          <button id="resetBtn" class="danger" type="button">Reset data</button>
+        </div>
+        <div id="storageStatus" class="status"></div>
+      </article>
+    </section>
+  </main>
+</div>
+
+<script src="./app.js"></script>
+</body>
+</html>
