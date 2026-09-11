@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#141a2b"/><stop offset="1" stop-color="#22162c"/></linearGradient>
+  <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#090b12"/><stop offset="1" stop-color="#24283a"/></linearGradient>
+  <linearGradient id="glove" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c1c2e"/><stop offset="1" stop-color="#d75165"/></linearGradient>
+</defs>
+<rect width="600" height="600" fill="url(#bg)"/>
+<circle cx="450" cy="115" r="130" fill="#719dff" opacity=".11"/>
+<path d="M118 565c25-169 89-272 188-289 100-17 171 79 197 289z" fill="#111827"/>
+<path d="M211 274c-55-65-33-182 32-224 72-47 178-17 205 70 16 51-2 116-34 158-19-50-54-74-100-81-46-7-77 14-103 77z" fill="url(#hair)"/>
+<path d="M227 104c-68 74-83 208-44 334l64-25c-34-125-24-241 29-328z" fill="#0a0d16"/>
+<path d="M406 89c56 107 41 247 4 352l-61-24c27-108 38-222 0-325z" fill="#0b0f18"/>
+<ellipse cx="320" cy="177" rx="91" ry="108" fill="#e2b8a8"/>
+<path d="M240 150c16-64 50-91 101-89 54 3 87 39 94 101-48-34-117-37-195-12z" fill="#0a0d15"/>
+<path d="M270 188c18 8 34 8 51 0" fill="none" stroke="#7f4f4b" stroke-width="5" stroke-linecap="round"/>
+<circle cx="282" cy="165" r="6" fill="#372f39"/><circle cx="360" cy="165" r="6" fill="#372f39"/>
+<path d="M306 226c12 8 28 8 40 0" fill="none" stroke="#a55b63" stroke-width="5" stroke-linecap="round"/>
+<path d="M258 287c21-20 102-20 125 1l21 109-172 0z" fill="#eceff7"/>
+<path d="M281 286h78l16 111h-111z" fill="#12151d"/>
+<path d="M195 339c-49 44-79 103-86 178l70 16c14-76 37-120 79-151z" fill="#e1b7a8"/>
+<path d="M422 337c56 47 81 106 82 182l-69 12c-11-75-33-118-76-151z" fill="#e1b7a8"/>
+<path d="M104 459c18-25 42-38 72-38l39 74-45 67-77-18z" fill="url(#glove)"/>
+<path d="M438 423c30-2 55 10 75 34l14 84-79 22-43-67z" fill="url(#glove)"/>
+<path d="M230 397h179l62 168H165z" fill="#151927"/>
+<path d="M232 399l-14 166h45l16-166zm177 0 21 166h-46l-20-166z" fill="#282f43"/>
+<path d="M280 398h83v65h-83z" fill="#7b2438"/>
+<rect x="286" y="424" width="72" height="11" rx="5" fill="#caa35d"/>
+<path d="M109 555h391" stroke="#6d84bd" stroke-width="2" opacity=".6"/>
+<text x="28" y="565" fill="#cbd8ff" font-family="Georgia,serif" font-size="26" letter-spacing="4">SEVENTH HEAVEN</text>
+</svg>
